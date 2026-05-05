@@ -1,0 +1,108 @@
+.list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #212529;
+}
+
+.text {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: #495057;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tag {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #0d6efd;
+    background-color: #e7f1ff;
+    border: 1px solid #b6d4fe;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    gap: 8px;
+}
+
+.viewLink {
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #0d6efd;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    text-align: center;
+    flex: 1;
+}
+
+.viewLink:hover {
+    background-color: #0b5ed7;
+}
+
+/* Кнопка удаления (красная) */
+.deleteBtn {
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex: 1;
+}
+
+.deleteBtn:hover:not(:disabled) {
+    background-color: #bb2d3b;
+}
+
+.deleteBtn:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+.empty {
+    text-align: center;
+    color: #6c757d;
+    font-size: 18px;
+    margin-top: 40px;
+}
