@@ -1,20 +1,31 @@
 'use client';
 
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createNote } from '../../lib/api';
 import { CreateNotePayload } from '../../types/note';
 import css from './NoteForm.module.css';
 
+const CustomErrorMessage = ({ children }: { children?: React.ReactNode }) => (
+  <div className={css.errorText}>{children}</div>
+);
+
 interface NoteFormProps {
   onCancel: () => void;
 }
 
 const NoteSchema = Yup.object().shape({
-  title: Yup.string().required('Required'),
-  content: Yup.string().required('Required'),
-  tag: Yup.string().oneOf(['work', 'personal', 'important']).required('Required'),
+  title: Yup.string()
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  content: Yup.string()
+    .max(500, 'Max 500 symbols')
+    .optional(),
+  tag: Yup.string()
+    .oneOf(['Todo', 'Work', 'Personal', 'Meeting', 'Shopping'])
+    .required('Required'),
 });
 
 export default function NoteForm({ onCancel }: NoteFormProps) {
@@ -30,23 +41,26 @@ export default function NoteForm({ onCancel }: NoteFormProps) {
 
   return (
     <Formik
-      initialValues={{ title: '', content: '', tag: 'personal' as const }}
+      initialValues={{ title: '', content: '', tag: 'Todo' as const }} 
       validationSchema={NoteSchema}
       onSubmit={(values: CreateNotePayload) => mutation.mutate(values)}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, errors, touched }) => (
         <Form className={css.form}>
           <Field name="title" placeholder="Title" />
-          <ErrorMessage name="title" component="div" />
-          
-          <Field name="content" as="textarea" placeholder="Content" />
-          <ErrorMessage name="content" component="div" />
+          {errors.title && touched.title && <CustomErrorMessage>{errors.title}</CustomErrorMessage>}
+
+          <Field name="content" as="textarea" placeholder="Content (optional)" />
+          {errors.content && touched.content && <CustomErrorMessage>{errors.content}</CustomErrorMessage>}
 
           <Field name="tag" as="select">
-            <option value="work">Work</option>
-            <option value="personal">Personal</option>
-            <option value="important">Important</option>
+            <option value="Todo">Todo</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Shopping">Shopping</option>
           </Field>
+          {errors.tag && touched.tag && <CustomErrorMessage>{errors.tag}</CustomErrorMessage>}
 
           <div className={css.actions}>
             <button type="button" onClick={onCancel}>Cancel</button>

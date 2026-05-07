@@ -20,7 +20,8 @@ export default function NoteDetailsClient() {
     <article>
       <h1>{note.title}</h1>
       <p>{note.content}</p>
-      <span>{note.tag}</span>
+      <div>Tag: {note.tag}</div>
+      <time>Created at: {new Date(note.createdAt).toLocaleString()}</time>
     </article>
   );
 }
